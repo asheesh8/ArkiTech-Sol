@@ -15,8 +15,10 @@ This milestone includes:
 - Client list and client detail views with plan, billing, activity, and review-growth information.
 - Settings, demo reset, profile context, offline state, installable PWA metadata, and iPhone safe areas.
 - Supabase schema, row-level security policies, typed database adapter, and local demo adapter.
+- Stripe Checkout and webhook functions for subscriptions, one-time payments, cancellation, and payment history.
+- Resend delivery with editable templates, durable email history, and automatic activity entries.
 
-Deferred from this milestone are a paid Google Business data provider, push notifications, background sync conflict resolution, file uploads, and production billing. Those additions must not require redesigning the UI or domain model.
+Deferred from this milestone are a paid Google Business data provider, push notifications, background sync conflict resolution, and file uploads. Live billing and email code is included, but requires the user's Stripe, Resend, and Supabase secrets before external transactions can be verified.
 
 ## Experience Direction
 
@@ -43,7 +45,11 @@ Pages do not call Supabase directly. They call typed hooks backed by a `SalesRep
 
 The Supabase migration creates profiles, leads, lead activities, clients, deals, and review snapshots. It adds indexes, updated-at triggers, and row-level security. Authenticated workspace members can read and write shared sales data; profile identity is derived from `auth.uid()`.
 
-Magic-link authentication is supported. When a signed-in account has no profile, onboarding asks the user to choose Ashish or Terri and creates the matching profile. Role selection is not editable in normal settings. No service-role credential is used in the browser.
+Magic-link authentication is supported. Supabase public signup is disabled and only the two invited addresses may enter. The optional client allowlist fails closed when populated. Role selection is not editable in normal settings. No service-role credential is used in the browser.
+
+## Billing and Email Boundaries
+
+The browser never handles Stripe or Resend secrets. Supabase Edge Functions create customers and Stripe Checkout Sessions, cancel subscriptions, read payment history, send Resend messages, and process signed Stripe webhooks. The webhook is the source of truth for subscription and payment status. Demo mode mirrors these operations locally so the complete UI can be reviewed without causing external side effects.
 
 Local demo mode uses the same entity shapes and repository interface. It seeds representative leads, clients, activities, snapshots, and a deal, then persists mutations under a versioned storage key. Settings can reset demo data after confirmation.
 

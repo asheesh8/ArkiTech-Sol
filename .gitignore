@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env.local
+.env.*.local
+.superpowers/
+coverage/
+.eslintcache
+playwright-report/
+test-results/
+*.log
