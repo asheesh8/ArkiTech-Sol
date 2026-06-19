@@ -13,7 +13,7 @@ export default defineConfig({
       manifest: {
         name: 'ArkiTech-Sol',
         short_name: 'ArkiTech',
-        description: 'Cold call and client platform for ArkiTech-Sol',
+        description: 'Local business discovery, client onboarding, and scheduling for ArkiTech',
         start_url: '/',
         display: 'standalone',
         background_color: '#0A0A0F',
