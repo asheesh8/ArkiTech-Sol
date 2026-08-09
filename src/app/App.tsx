@@ -5,6 +5,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 const BusinessFinderPage = lazy(() => import('../features/finder/BusinessFinderPage').then((module) => ({ default: module.BusinessFinderPage })));
 const LoginPage = lazy(() => import('../features/auth/LoginPage').then((module) => ({ default: module.LoginPage })));
+const VideoAdPage = lazy(() => import('../features/videoad/VideoAdPage').then((module) => ({ default: module.VideoAdPage })));
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
@@ -18,6 +19,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<BusinessFinderPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/videoad" element={<VideoAdPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>
