@@ -1,3 +1,6 @@
+// The browser app calls these functions cross-origin with a Supabase access token
+// in the Authorization header (not cookies), so a wildcard origin does not let
+// another site act as a signed-in user.
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, stripe-signature',

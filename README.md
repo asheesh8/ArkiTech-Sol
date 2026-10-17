@@ -2,6 +2,31 @@
 
 A focused internal tool for discovering local businesses from Google Maps data, reviewing their profile and recent reviews, onboarding a selected client, and scheduling a Google Meet appointment.
 
+**Live:** https://arki-tech-sol.vercel.app
+
+| | |
+|---|---|
+| **Front end** | Vite + React + TypeScript + Tailwind CSS, installable PWA (`src/`) |
+| **Back end** | Supabase: Postgres + Auth (magic link) + Edge Functions in Deno (`supabase/functions/`) |
+| **Integrations** | Outscraper (Google Maps data), Resend (email), Stripe (payments, `webhook` function) |
+| **Hosting** | Front end on Vercel; functions deployed to Supabase with the Supabase CLI |
+
+### Environment variables
+
+Names only — see `.env.example`; never commit values.
+
+| Variable | Where | Purpose |
+|---|---|---|
+| `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` | Browser (Vite) | Supabase project and public key |
+| `VITE_ALLOWED_EMAILS` | Browser (Vite) | Emails allowed to request a sign-in link (a UI gate only; real access depends on Supabase sign-up settings and `profiles`) |
+| `VITE_STRIPE_PUBLISHABLE_KEY` | Browser (Vite) | Stripe publishable key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Edge Function secret | Server-side database access |
+| `OUTSCRAPER_API_KEY` | Edge Function secret | Business search |
+| `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_REVIEWTAINER_PRICE_ID`, `STRIPE_ULTRARETAINER_PRICE_ID` | Edge Function secrets | Billing |
+| `RESEND_API_KEY`, `RESEND_FROM_EMAIL` | Edge Function secrets | Invites and email |
+
+Anything prefixed `VITE_` is bundled into the public JavaScript — never put a secret there.
+
 ## Product flow
 
 1. Search by business type and area, or paste a business website.

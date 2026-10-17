@@ -6,6 +6,8 @@ Deno.serve(async (request) => {
     const signature = request.headers.get('stripe-signature');
     if (!signature) return json({ error: 'Missing Stripe signature' }, 400);
     const stripe = stripeClient();
+    // Verifying the signature against the raw body is what makes this endpoint
+    // safe to expose: only Stripe can produce events that reach the writes below.
     const event = await stripe.webhooks.constructEventAsync(await request.text(), signature, requireEnv('STRIPE_WEBHOOK_SECRET'));
     const supabase = serviceClient();
     if (event.type === 'checkout.session.completed') {

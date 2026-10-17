@@ -9,6 +9,9 @@ const numberValue = (value: unknown) => {
   return Number.isFinite(parsed) ? parsed : null;
 };
 
+// Outscraper returns different field names depending on the endpoint and query
+// type (place_id vs google_id, site vs website, ...), so each field tries the
+// known aliases. Records without an id and a name are dropped.
 function normalizeBusiness(raw: JsonRecord) {
   const externalId = stringValue(raw.place_id ?? raw.google_id ?? raw.cid ?? raw.query);
   const name = stringValue(raw.name ?? raw.business_name);
