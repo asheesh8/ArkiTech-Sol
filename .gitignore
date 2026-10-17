@@ -8,3 +8,8 @@ coverage/
 playwright-report/
 test-results/
 *.log
+
+# Local secrets: only the example file is committed
+.env
+.env.*
+!.env.example
